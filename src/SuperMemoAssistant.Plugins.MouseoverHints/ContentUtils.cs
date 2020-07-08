@@ -42,5 +42,23 @@ namespace SuperMemoAssistant.Plugins.MouseoverHints
       return htmlCtrl?.GetDocument();
 
     }
+
+    /// <summary>
+    /// Get the IHTMLDocument2 object corresponding to the ControlIdx
+    /// </summary>
+    /// <param name="ControlIdx"></param>
+    /// <returns>IHTMLDocument2 or null</returns>
+    public static IHTMLDocument2 GetHtmlDocByIndex(int ControlIdx)
+    {
+
+      var ctrlGroup = Svc.SM.UI.ElementWdw.ControlGroup;
+      if (ctrlGroup.Count() >= ControlIdx + 1)
+        return null;
+
+      return ctrlGroup[ControlIdx]
+        ?.AsHtml()
+        ?.GetDocument();
+
+    }
   }
 }

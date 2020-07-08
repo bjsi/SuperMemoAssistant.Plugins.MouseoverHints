@@ -38,6 +38,7 @@ namespace SuperMemoAssistant.Plugins.MouseoverHints
   using System.Windows.Input;
   using Anotar.Serilog;
   using mshtml;
+  using SuperMemoAssistant.Extensions;
   using SuperMemoAssistant.Plugins.MouseoverHints.Interop;
   using SuperMemoAssistant.Services;
   using SuperMemoAssistant.Services.IO.Keyboard;
@@ -174,7 +175,7 @@ namespace SuperMemoAssistant.Plugins.MouseoverHints
         return;
 
       if (element.className == GroupHintClass)
-        HideGroupHint();
+        HideGroupHint(e.ControlIdx);
       else
         HideSingleHint(element);
     }
@@ -201,42 +202,26 @@ namespace SuperMemoAssistant.Plugins.MouseoverHints
 
     }
 
-    private void HideGroupHint()
+    private void HideGroupHint(int ControlIdx)
     {
-      var document = ContentUtils.GetFocusedHtmlDocument();
-      if (document.IsNull())
-        return;
 
-      var elements = document.all
+      var document = ContentUtils.GetHtmlDocByIndex(ControlIdx);
+      document?.all
         ?.Cast<IHTMLElement>()
-        ?.Where(x => IsMouseoverHintElement((IHTMLElement2)x));
+        ?.Where(x => IsMouseoverHintElement((IHTMLElement2)x))
+        ?.ForEach(x => HideSingleHint(x));
 
-      if (elements.IsNull() || !elements.Any())
-        return;
-
-      foreach (var element in elements)
-      {
-        HideSingleHint(element);
-      }
     }
 
-    private void ShowGroupHint()
+    private void ShowGroupHint(int ControlIdx)
     {
-      var document = ContentUtils.GetFocusedHtmlDocument();
-      if (document.IsNull())
-        return;
 
-      var elements = document.all
+      var document = ContentUtils.GetHtmlDocByIndex(ControlIdx);
+      document?.all
         ?.Cast<IHTMLElement>()
-        ?.Where(x => IsMouseoverHintElement((IHTMLElement2)x));
+        ?.Where(x => IsMouseoverHintElement((IHTMLElement2)x))
+        ?.ForEach(x => ShowSingleHint(x));
 
-      if (elements.IsNull() || !elements.Any())
-        return;
-
-      foreach (var element in elements)
-      {
-        ShowSingleHint(element);
-      }
     }
 
     private void HtmlDocEvents_OnMouseEnterEvent(object sender, IHTMLControlEventArgs e)
@@ -246,8 +231,8 @@ namespace SuperMemoAssistant.Plugins.MouseoverHints
       if (element.IsNull())
         return;
 
-      if (element.className == GroupHintClass)
-        ShowGroupHint();
+      if (!element.className.IsNull() && element.className == GroupHintClass)
+        ShowGroupHint(e.ControlIdx);
       else
         ShowSingleHint(element);
 
