@@ -1,5 +1,6 @@
 ﻿using mshtml;
 using SuperMemoAssistant.Extensions;
+using SuperMemoAssistant.Interop.SuperMemo.Content.Controls;
 using SuperMemoAssistant.Services;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,14 @@ namespace SuperMemoAssistant.Plugins.MouseoverHints
       var ctrlGroup = Svc.SM.UI.ElementWdw.ControlGroup;
       var htmlCtrl = ctrlGroup?.FocusedControl?.AsHtml();
       return htmlCtrl?.GetDocument();
+
+    }
+
+    public static IControlHtml GetFocusedHtmlControl()
+    {
+
+      var ctrlGroup = Svc.SM.UI.ElementWdw.ControlGroup;
+      return ctrlGroup?.FocusedControl?.AsHtml();
 
     }
 

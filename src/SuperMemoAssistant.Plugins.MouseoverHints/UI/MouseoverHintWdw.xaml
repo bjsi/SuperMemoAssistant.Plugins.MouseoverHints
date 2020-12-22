@@ -1,0 +1,30 @@
+﻿<Window x:Class="SuperMemoAssistant.Plugins.MouseoverHints.UI.MouseoverHintWdw"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SuperMemoAssistant.Plugins.MouseoverHints.UI"
+        mc:Ignorable="d"
+        Title="Mouseover Hints"
+        Height="100"
+        Width="350">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      
+      <Button Name="RemoveHintBtn"
+              Click="RemoveHintBtn_Click"
+              Grid.Column="0"
+              Content="Remove Hints (just styling)"
+              Margin="10"/>
+      
+      <Button Name="DeleteHintBtn"
+              Click="DeleteHintBtn_Click"
+              Content="Delete Hints (styling + text)"
+              Grid.Column="1"
+              Margin="10"/>
+      
+    </Grid>
+</Window>
